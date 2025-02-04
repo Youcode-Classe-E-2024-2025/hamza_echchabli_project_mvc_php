@@ -1,13 +1,15 @@
 <?php
 
 
+require_once '../app/core/Controller.php';
 
-class Home {
 
-    public function index($r){
+class Home extends Controller{
 
-        echo $r;
-        echo 'from the';
+    public function index(){
+
+        $this->view('homeView', 'front');
+    
     }
 
     public function gg(){
@@ -16,6 +18,9 @@ class Home {
         echo 'gg';
 
     }
+
+    
+    
 
 
 }
