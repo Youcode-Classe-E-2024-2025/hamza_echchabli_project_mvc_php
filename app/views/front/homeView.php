@@ -7,5 +7,7 @@
 </head>
 <body>
     here is the home view
+
+    <?php  echo $num; ?>
 </body>
 </html>

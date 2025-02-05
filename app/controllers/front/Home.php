@@ -8,7 +8,12 @@ class Home extends Controller{
 
     public function index(){
 
-        $this->view('homeView', 'front');
+
+        // $res = $this->model('Test');
+
+        
+
+        $this->view('homeView', 'front',['num'=> 3452345]);
     
     }
 
