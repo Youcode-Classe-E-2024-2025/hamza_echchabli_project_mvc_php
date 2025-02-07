@@ -1,167 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Anime Articles{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #FF69B4;
-            --secondary-color: #9B59B6;
-            --accent-color: #3498DB;
-            --background-color: #1a1a2e;
-            --text-color: #ffffff;
-            --text-color-muted: rgba(255, 255, 255, 0.8);
-            --card-bg: rgba(255, 255, 255, 0.15);
-            --heading-color: #FF69B4;
-        }
+{% extends "layouts/app.twig" %}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            background-image: url('https://cdn.jsdelivr.net/gh/Pattern-Labs/anime-backgrounds@main/images/subtle_pattern.png');
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            color: var(--heading-color);
-            font-weight: 600;
-        }
-
-        p {
-            color: var(--text-color);
-        }
-
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        a:hover {
-            color: var(--primary-color);
-        }
-        }
-
-        .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--accent-color);
-        }
-
-        .navbar-brand {
-            font-weight: 600;
-            color: #fff !important;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .nav-link {
-            color: #fff !important;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #fff;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            transform: translateX(0);
-        }
-
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-            color: var(--text-color);
-        }
-
-        .card-title {
-            color: var(--heading-color);
-            font-weight: 600;
-        }
-
-        .card-text {
-            color: var(--text-color);
-        }
-
-        .text-muted {
-            color: var(--text-color-muted) !important;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            border-radius: 25px;
-            padding: 10px 25px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px var(--primary-color);
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('') }}">MVC Project</a>
-            <button class="navbar-toggler btn btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">Toggle Navigation</button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('articles') }}">Articles</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    {% if user is defined and user %}
-                        <li class="nav-item">
-                            <span class="nav-link">Welcome, {{ user.username }}</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('logout') }}">Logout</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('login') }}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('register') }}">Register</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+{% block content %}
+<div>
+    <!-- Hero section -->
+    <div class="relative" style="background-color: var(--background-color);">
+        <div class="absolute inset-0">
+            <img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100" alt="People working on laptops">
+            <div class="absolute inset-0" style="background: var(--background-color); mix-blend-mode: multiply;"></div>
         </div>
-    </nav>
-
-    <div class="container">
-        {% block content %}{% endblock %}
+        <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-extrabold sm:text-5xl lg:text-6xl" style="color: var(--heading-color);">Welcome to Blog Platform</h1>
+            <p class="mt-6 text-xl max-w-3xl" style="color: var(--text-color-muted);">Share your thoughts, ideas, and stories with the world. Join our community of writers and readers today.</p>
+            {% if not session.user_id %}
+            <div class="mt-10 flex space-x-4">
+                <a href="/register" class="btn btn-primary">Get Started</a>
+                <a href="/login" class="btn btn-primary" style="background: var(--card-bg); color: var(--accent-color); border: 1px solid var(--accent-color);">Sign In</a>
+            </div>
+            {% endif %}
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
-</body>
-</html>
+    <!-- Latest Articles section -->
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-3xl font-extrabold sm:text-4xl" style="color: var(--heading-color);">Latest Articles</h2>
+            <p class="mt-3 max-w-2xl mx-auto text-xl" style="color: var(--text-color-muted);">
+                Discover the latest thoughts and insights from our community
+            </p>
+        </div>
+
+        <div class="mt-12 grid gap-16 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12">
+            {% for article in articles %}
+            <div class="card p-4 flex flex-col">
+                <div class="flex-1">
+                    <a href="/articles/{{ article.id }}" class="block mt-2">
+                        <p class="card-title">{{ article.title }}</p>
+                        <p class="mt-3 card-text">{{ article.content|slice(0, 150) }}...</p>
+                    </a>
+                </div>
+                <div class="mt-6 flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="sr-only">{{ article.author_name }}</span>
+                        <div class="h-10 w-10 rounded-full flex items-center justify-center" style="background: var(--card-bg); color: var(--text-color);">
+                            <span>{{ article.author_name|slice(0, 1)|upper }}</span>
+                        </div>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium" style="color: var(--text-color);">
+                            {{ article.author_name }}
+                        </p>
+                        <div class="flex space-x-1 text-sm" style="color: var(--text-color-muted);">
+                            <time datetime="{{ article.created_at }}">{{ article.created_at|date('M j, Y') }}</time>
+                            {% if article.category_name %}
+                            <span aria-hidden="true">&middot;</span>
+                            <span>{{ article.category_name }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-12 text-center">
+            <a href="/articles" class="btn btn-primary">View All Articles</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

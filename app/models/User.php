@@ -73,34 +73,10 @@ class User {
         }
     }
 
-    public function getTotalUsers() {
-        $stmt = $this->db->getConnection()->query("SELECT COUNT(*) as total FROM users");
-        $result = $stmt->fetch();
-        return (int)$result['total'];
-    }
+  
 
-    public function getRecentUsers($limit = 5) {
-        $stmt = $this->db->getConnection()->prepare(
-            "SELECT id, username, email, role, created_at 
-            FROM users 
-            ORDER BY created_at DESC 
-            LIMIT :limit"
-        );
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 
-    public function getNewUsersCount($days) {
-        $stmt = $this->db->getConnection()->prepare(
-            "SELECT COUNT(*) as total FROM users WHERE created_at >= (NOW() - :days * INTERVAL '1 day')"
-        );
-        $stmt->bindValue(':days', $days, PDO::PARAM_INT);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return (int)$result['total'];
-    }
-
+   
     public function getAllUsers($page = 1, $limit = 10) {
         $offset = ($page - 1) * $limit;
         $sql = "SELECT * FROM users ORDER BY id DESC LIMIT :limit OFFSET :offset";
@@ -134,29 +110,7 @@ where id = :id";
         return $stmt->fetch();
     }
 
-    public function updateUser($id, $data) {
-        $allowedFields = ['username', 'email', 'role', 'active'];
-        $updates = [];
-        $values = [];
-
-        foreach ($data as $field => $value) {
-            if (in_array($field, $allowedFields)) {
-                $updates[] = "`$field` = ?";
-                $values[] = $value;
-            }
-        }
-
-        if (empty($updates)) {
-            return false;
-        }
-
-        $values[] = $id;
-
-        $sql = "UPDATE users SET " . implode(", ", $updates) . " WHERE id = ?";
-        $stmt = $this->db->getConnection()->prepare($sql);
-        return $stmt->execute($values);
-    }
-
+    
     public function deleteUser($id) {
         $stmt = $this->db->getConnection()->prepare("DELETE FROM users WHERE id = ?");
         return $stmt->execute([$id]);
@@ -184,37 +138,7 @@ where id = :id";
         return $stmt->execute($values);
     }
 
-    public function updatePassword($userId, $currentPassword, $newPassword) {
-        $user = $this->getUserById($userId);
-        if (!$user || !password_verify($currentPassword, $user['password'])) {
-            return false;
-        }
+  
 
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET password = ? WHERE id = ?";
-        $stmt = $this->db->getConnection()->prepare($sql);
-        return $stmt->execute([$hashedPassword, $userId]);
-    }
-
-    public function updateUserRole($userId, $newRole) {
-        if (!in_array($newRole, [self::ROLE_USER, self::ROLE_ADMIN])) {
-            return false;
-        }
-
-        $sql = "UPDATE users SET role = ? WHERE id = ?";
-        $stmt = $this->db->getConnection()->prepare($sql);
-        return $stmt->execute([$newRole, $userId]);
-    }
-
-    public function deactivateUser($userId) {
-        $sql = "UPDATE users SET active = 0 WHERE id = ?";
-        $stmt = $this->db->getConnection()->prepare($sql);
-        return $stmt->execute([$userId]);
-    }
-
-    public function activateUser($userId) {
-        $sql = "UPDATE users SET active = 1 WHERE id = ?";
-        $stmt = $this->db->getConnection()->prepare($sql);
-        return $stmt->execute([$userId]);
-    }
+  
 }
