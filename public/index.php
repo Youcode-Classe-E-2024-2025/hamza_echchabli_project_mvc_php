@@ -1,30 +1,26 @@
-<?php    
-ini_set('display_errors', 1);
+<?php
+
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
+require_once "../vendor/autoload.php";
 
-
-require_once '../app/core/Router.php';
-require_once __DIR__ . '/../vendor/autoload.php';
-
-
-
-use App\core\DB;
+use app\core\Router;
+use app\models\Article;
 
 
 
-$testDB= new DB;
+$controllerRouter = new Router();
+$routes = require_once "../app/config/routes.php";
 
-$testDB->query('select students.name from students ;');
-
-
-$R = new Router;
-
-
+foreach ($routes as $path => $controller) {
+    $controllerRouter->add('GET', $path, $controller);
+    $controllerRouter->add('POST', $path, $controller);
+}
 
 
 
 
 
-
-
-
+$controllerRouter->dispatch(strtok($_SERVER['REQUEST_URI'], "?"));
+?>
